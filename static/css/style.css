@@ -1,0 +1,144 @@
+body {
+    scroll-behavior: smooth;
+    background-color: #ebede9;
+    font-family: 'athena', sans-serif;
+}
+
+.navbar {
+    position: sticky;
+}
+
+
+
+.product-card {
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+
+
+.image-box {
+    margin: 20px;
+    padding: 15px;
+    position: relative;
+    overflow: hidden;
+
+}
+
+.image-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.image-box1 img {
+    width: 100%;
+    height: auto;
+    display: flex;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.image-box:hover .overlay {
+    bottom: 0;
+    opacity: 1;
+}
+
+.quick-view {
+    background: #f1e9df;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.quick-btn:hover {
+    text-decoration: underline;
+}
+
+.product-info {
+    margin-top: 15px;
+}
+
+.product-info h5 {
+    font-weight: 400;
+    color: #6b7c7c;
+}
+.product-info h5:hover {
+    color: #ffcc00;
+    cursor: pointer;
+}
+
+.price {
+    color: #888;
+    font-size: 18px;
+}
+.price:hover {
+    color: #ffcc00;
+    cursor: pointer;
+}
+
+.product-card {
+    transition: 0.3s;
+}
+
+img:hover {
+    transform: scale(1.1);
+}
+
+.product-img {
+    padding: 10px;
+    height: 150px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.auth-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    color: white;
+    margin-top: 30px;
+}
+
+.auth-card input {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+}
+
+.auth-btn {
+    background: #ffcc00;
+    font-weight: bold;
+}
+
+.nav-item {
+    padding: 10px;
+    margin-right: 50px;
+}
+
+.row {
+    display: flex;
+}
+
+.offcanvas-header {
+    background: antiquewhite;
+    color: white;
+}  
+.offcanvas-body {
+    background: url(/static/images/image.png) no-repeat;
+    background-size: cover;
+    backdrop-filter: blur(20px);
+    color: rgb(14, 13, 13);
+}
