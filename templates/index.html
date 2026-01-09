@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MyShop - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="/static/images/my.png">
+
+</head>
+
+
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <nav class="navbar navbar-dark bg-dark px-2 fixed-top p-2">
+        <a class="navbar-brand" href="/"><img src="/static/images/my.png" alt="" style="width: 40px;"> MyShop</a>
+        <div>
+            {% if user %}
+            <a class="btn btn-outline-light me-2" href="/cart">Cart ({{ session['cart']|length }})</a>
+            <a class="btn btn-outline-light me-2" href="/profile">Profile</a>
+            <a class="btn btn-warning" href="/logout">Logout</a>
+            {% else %}
+            <a class="btn btn-outline-light me-2" href="/login">Login</a>
+            <a class="btn btn-warning" href="/register">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-dark bg-secondary p-2">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">All</a>
+            <ul class="dropdown-menu text-white">
+                <li><a class="dropdown-item" href="{{ url_for('profile') }}">My Profile</a></li>
+                <li><a class="dropdown-item" href="#">Grocery</a></li>
+                <li><a class="dropdown-item" href="#">Painting</a></li>
+            </ul>
+        </li>
+        <div class="nav-item text-white"><a href="#home" class="text-decoration-none text-white">Electronics</a></div>
+        <div class="nav-item text-white"><a href="#grocery" class="text-decoration-none text-white">Grocery</a></div>
+        <div class="nav-item text-white"><a href="#painting" class="text-decoration-none text-white">Painting</a></div>
+    </nav>
+
+    <div>
+        <h1 style="text-align: center; padding: 20px;">Welcome to MyShop</h1>
+    </div>
+
+    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button data-bs-target="#demo" data-bs-slide-to="0" class="active bg-primary"></button>
+            <button data-bs-target="#demo" data-bs-slide-to="1" class="bg-danger"></button>
+            <button data-bs-target="#demo" data-bs-slide-to="2" class="bg-danger"></button>
+            <button data-bs-target="#demo" data-bs-slide-to="3" class="bg-danger"></button>
+            <button data-bs-target="#demo" data-bs-slide-to="4" class="bg-danger"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/static/images/dhal.jpg" alt="prime" class="mx-auto d-block w-25">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/oppo.jpg" alt="prime" class="mx-auto d-block w-25">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/the_scream.jpg" alt="prime" class="mx-auto d-block w-25">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/wheat.jpg" alt="prime" class="mx-auto d-block w-25">
+            </div>
+            <div class="carousel-item">
+                <img src="/static/images/n.jpg" alt="prime" class="mx-auto d-block w-25">
+            </div>
+
+        </div>
+        <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#demo">
+            <span class="carousel-control-prev-icon bg-dark"></span>
+        </button>
+        <button class="carousel-control-next" data-bs-target="#demo" data-bs-slide="next">
+            <span class="carousel-control-next-icon bg-dark"></span>
+        </button>
+    </div>
+
+    <h2 id="home">Electronics</h2>
+    <section class="row">
+        <div class="tab-content" id="tab">
+            <div id="Electronics" class="container tab-pane active "><br>
+                <div class="container">
+                    <div class="row  g-4">
+                        {% for p in products %}
+                        <div class="col-md-6 col-lg-3">
+                            <div class="product-card">
+                                <div class="image-box">
+                                    <img src="{{ url_for('static', filename='images/' + p['image']) }}"
+                                        class="product-img">
+
+
+                                    <div class="overlay">
+                                        <div class="quick-view" data-type="product" data-id="{{ p.id }}"
+                                            data-name="{{ p.name }}" data-price="{{ p.price }}"
+                                            data-image="{{ url_for('static', filename='images/' + p.image) }}"
+                                            data-bs-toggle="offcanvas" data-bs-target="#quickViewCanvas"
+                                            onclick="openQuickView(this)">
+                                            Quick View
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="offcanvas offcanvas-end" id="quickViewCanvas">
+                                    <div class="offcanvas-header text-dark">
+                                        <h5>Quick View</h5>
+                                        <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+                                    </div>
+
+                                    <div class="offcanvas-body">
+                                        <img id="qvImage" class="img-fluid mb-3">
+
+                                        <h4 id="qvName"></h4>
+                                        <p class="text-muted">₹<span id="qvPrice"></span></p>
+
+                                        <input type="hidden" id="qvProductId">
+
+                                        <label>Quantity</label>
+                                        <input type="number" id="qvQty" class="form-control mb-3" value="1" min="1">
+
+                                        <button class="btn btn-dark w-100" onclick="addToCart()">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="product-info text-center">
+                                    <h5>{{ p['name'] }}</h5>
+                                    <p class="price">₹{{ p['price'] }}</p>
+                                    <p>{{ p['description'] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    </section>
+
+    <h2 id="grocery">Grocery</h2>
+
+
+    <div class="container">
+        <div class="row  g-4">
+            {% for g in grocery %}
+            <div class="col-md-5 col-lg-3">
+                <div class="product-card">
+                    <div class="image-box">
+                        <img src="{{ url_for('static', filename='images/' + g['image']) }}" class="product-img">
+
+
+                        <div class="overlay">
+                            <div class="quick-view" data-type="product" data-id="{{ g.id }}"
+                                            data-name="{{ g.name }}" data-price="{{ g.price }}"
+                                            data-image="{{ url_for('static', filename='images/' + g.image) }}"
+                                            data-bs-toggle="offcanvas" data-bs-target="#quickViewCanvas"
+                                            onclick="openQuickView(this)">
+                                            Quick View
+                                        </div>
+                        </div>
+
+
+                    </div>
+                    <div class="offcanvas offcanvas-end" id="quickViewCanvas">
+                        <div class="offcanvas-header">
+                            <h5>Quick View</h5>
+                            <button class="btn-close" data-bs-dismiss="offcanvas"></button>
+                        </div>
+
+                        <div class="offcanvas-body">
+                            <img id="qvImage" class="img-fluid mb-3">
+
+                            <h4 id="qvName"></h4>
+                            <p class="text-muted">₹<span id="qvPrice"></span></p>
+
+                            <input type="hidden" id="qvProductId">
+
+                            <label>Quantity</label>
+                            <input type="number" id="qvQty" class="form-control mb-3" value="1" min="1">
+
+                            <button class="btn btn-dark w-100" onclick="addToCart()">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info text-center">
+                        <h5>{{ g['name'] }}</h5>
+                        <p class="price">₹{{ g['price'] }}</p>
+                        <p>{{ g['description'] }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <h3 id="painting">Painting</h3>
+    <div class="container">
+        <div class="row g-4">
+            {% for a in painting %}
+            <div class="col-md-3 col-lg-3">
+                <div class="product-card">
+                    <div class="image-box">
+                        <img src="{{ url_for('static', filename='images/' + a.image) }}" class="product-img">
+                        <div class="overlay">
+                            <div class="quick-view" data-bs-toggle="offcanvas" data-bs-target="#quickViewCanvas"
+                                data-type="painting" data-id="{{ a.id }}" data-name="{{ a.name }}"
+                                data-price="{{ a.price }}"
+                                data-image="{{ url_for('static', filename='images/' + a.image) }}"
+                                onclick="openQuickView(this)">
+                                Quick View
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-info text-center">
+                        <h5 class="mt-2">{{ a.name }}</h5>
+                        <p class="price">₹{{ a.price }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <input type="hidden" id="qvProductId">
+    <input type="hidden" id="qvType">
+
+
+    <script>
+        function openQuickView(el) {
+            document.getElementById('qvProductId').value = el.dataset.id;
+            document.getElementById('qvType').value = el.dataset.type;
+            document.getElementById('qvName').innerText = el.dataset.name;
+            document.getElementById('qvPrice').innerText = el.dataset.price;
+            document.getElementById('qvImage').src = el.dataset.image;
+        }
+
+        function addToCart() {
+            const id = document.getElementById('qvProductId').value;
+            const type = document.getElementById('qvType').value;
+            const qty = document.getElementById('qvQty').value;
+
+            window.location.href = `/add_to_cart/${type}/${id}?qty=${qty}`;
+        }
+    </script>
+
+
+
+</body>
+
+</html>
